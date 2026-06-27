@@ -18,7 +18,7 @@ pipeline {
     }   
         post{
         success{
-            eco"le test a été lancé"
+            echo"le test a été lancé"
             build job:'job_col2',wait: true
         }
     }
