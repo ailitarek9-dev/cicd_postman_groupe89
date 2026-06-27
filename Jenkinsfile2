@@ -17,7 +17,7 @@ pipeline {
     }
        post{
         success{
-            echo"le test a été lancé"
+            echo 'le test a été lancé'
             build job:'job_col3',wait: true
         }
     }
