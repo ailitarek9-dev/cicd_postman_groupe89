@@ -1,0 +1,39 @@
+pipeline {
+    agent {
+        docker
+        { 
+            image 'postman/newman:latest'
+            args '-u=root --entrypoint='
+        }  
+    }
+    parameters {
+        choice(name: 'environment', choices: ['e2e', 'preprod'], description: 'Chosissez une environment')
+        booleanParam(name: 'env', defaultValue: false, non: 'Lancer la collection')
+    }
+    stages {
+        stage('lancer le deuxieme collection') {
+            steps {
+                script {
+                if(params.env==false ){
+                sh 'newman run collec2.json -e ./env/e2e.json'
+                sh 'newman run collec2.json -e ./env/peprod.json'
+          
+              
+                }else if (params.selection==preprod){
+                    sh "newman run collec2.json -e ./env/${params.environment}.json"
+                }
+                else{
+                    sh "newman run collec2.json -e /env/${params.environment}.json"
+                    }
+                    
+            }
+        }
+        post{
+        success{
+            eco"le test a été lancé"
+            }
+        
+        }
+    }
+}
+}
